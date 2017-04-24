@@ -1,0 +1,37 @@
+#container {
+    border: 1px solid grey;
+    border-radius: 4px;
+    background-color: #f6f6f6;
+    padding: 5px;
+}
+
+.text {
+    height: 20px;
+    border: 1px solid grey;
+    border-radius: 3px;
+    padding: 5px;
+}
+
+#color {
+    height: 20px;
+    border: 1px solid grey;
+    border-radius: 3px;
+    padding: 5px;
+}
+
+.button {
+    height: 32px !important;
+    border: 1px solid grey;
+    border-radius: 3px;
+    padding: 5px;
+}
+
+ul {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    list-style-type: none;
+}
+
+#connection_label {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: forestgreen;
+}

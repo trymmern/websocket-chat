@@ -1,0 +1,77 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <script src="./jquery-3.2.0.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+
+        class Board {
+            constructor() {
+
+                this.ws = new WebSocket("ws://localhost:3001");
+
+                this.ws.onerror = (error) => {
+                    $("#connection_label").html("Not connected");
+                };
+
+                this.ws.onopen = () => {
+                    $("#connection_label").html("Connected");
+                };
+
+                this.ws.onmessage = (event) => {
+                    var json = JSON.parse(event.data);
+                    $('#msglist').append('<li>'+ json.hours +':'+ json.minutes +' <b>'+ json.name +': <br></b>' +
+                        '<span style="color: '+ json.color +'">' +
+                        json.message + '</span>' +
+                        '</li>');
+                };
+
+                this.ws.onclose = function (message) {
+                    $("#connection_label").html("Not connected");
+                };
+            }
+        }
+
+        sendChatMessage = function () {
+            let jsonOutput = JSON.stringify(
+                {
+                    "name": $('#name').val(),
+                    "message": $('#message_text').val(),
+                    "color": $('#color').val(),
+                    "hours": new Date().getHours(),
+                    "minutes": new Date().getMinutes()
+                }
+            );
+            console.log(jsonOutput);
+            board.ws.send(jsonOutput);
+        };
+
+        var board;
+        //When this file is fully loaded, initialize board with context
+        $(document).ready(function () {
+            board = new Board();
+            $('#input-form').submit((event) => {
+                sendChatMessage(event)
+            })
+        });
+
+    </script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="connection_label">
+    Connecting...
+</div>
+<br>
+<div id="container">
+    <ul id="msglist">
+
+    </ul>
+    <form action="#" id="input-form">
+        <input class="text" type="text" id="name" placeholder="Name">
+        <input class="text" type="text" id="message_text" placeholder="Message">
+        <input type="color" id="color">
+        <input class="button" type="submit" value="Submit">
+    </form>
+</div>
+</body>
+</html>
